@@ -20,6 +20,7 @@ pipeline {
                             }
                         }
                         echo "NODE_NAME = ${env.NODE_NAME}"
+                        sh 'podman image prune --external -af && podman system prune -af --volumes'
                         sh 'podman build -t localhost/$IMAGE_NAME --pull --force-rm --no-cache .'
                      }
                     post {
@@ -62,6 +63,11 @@ pipeline {
                         }
                     }
                 }                
+            }
+            post {
+                always {
+                    sh 'podman rmi -i localhost/$IMAGE_NAME || true'
+                }
             }
         }
     }
