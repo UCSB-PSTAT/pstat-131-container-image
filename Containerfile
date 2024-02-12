@@ -4,7 +4,7 @@ LABEL maintainer="LSIT Systems <lsitops@ucsb.edu>"
 
 USER root
 
-RUN R -e "install.packages(c('dplyr', 'ggplot2', 'glmnet', 'ROCR', 'ISLR', 'tree', 'maptree', 'dendextend'), repos = 'https://cloud.r-project.org/', Ncpus = parallel::detectCores())"
+RUN mamba install -y r-dplyr r-ggplot2 r-glmnet r-rocr r-islr r-tree r-maptree r-dendextend
 
 USER $NB_USER
 
