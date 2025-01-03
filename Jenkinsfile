@@ -33,7 +33,7 @@ pipeline {
                     steps {
                         sh 'podman run -it --rm localhost/$IMAGE_NAME which rstudio'
                         sh 'podman run -it --rm localhost/$IMAGE_NAME R -q -e "getRversion() >= \\"4.1.3\\"" | tee /dev/stderr | grep -q "TRUE"'
-                        sh 'podman run -it --rm localhost/$IMAGE_NAME R -e "library(\"dplyr\");library(\"ggplot2\");library(\"tidyverse\");library(\"glmnet\");library(\"knitr\");library(\"ISLR\");library(\"ROCR\");library(\"tree\");library(\"maptree\");library(\"randomForest\");library(\"gbm3\");library(\"ggridges\");library(\"dendextend\");library(\"e1071\")"'
+                        sh 'podman run -it --rm localhost/$IMAGE_NAME R -e "library(\"class\"); library(\"cluster\"); library(\"dendextend\"); library(\"dplyr\"); library(\"e1071\"); library(\"factoextra\"); library(\"FNN\"); library(\"hflights\"); library(\"gbm3\"); library(\"ggridges\"); library(\"glmnet\"); library(\"ggplot2\"); library(\"ISLR\"); library(\"knitr\"); library(\"maptree\"); library(\"randomForest\"); library(\"reshape2\"); library(\"ROCR\"); library(\"tibble\"); library(\"tidyverse\"); library(\"tree\"); library(\"dendextend\"); library(\"e1071\")"'
                         sh 'podman run -d --name=$IMAGE_NAME --rm -p 8888:8888 localhost/$IMAGE_NAME start-notebook.sh --NotebookApp.token="jenkinstest"'
                         sh 'sleep 10 && curl -v http://localhost:8888/rstudio?token=jenkinstest 2>&1 | grep -P "HTTP\\S+\\s[1-3][0-9][0-9]\\s+[\\w\\s]+\\s*$"'
                         sh 'curl -v http://localhost:8888/lab?token=jenkinstest 2>&1 | grep -P "HTTP\\S+\\s200\\s+[\\w\\s]+\\s*$"'
